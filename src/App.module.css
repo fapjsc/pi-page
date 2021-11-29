@@ -1,0 +1,162 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.male {
+  background-image: url(./assets/member-male.jpg);
+}
+
+.female {
+  background-image: url(./assets//member-female.jpg);
+}
+
+.contentBox {
+  width: 40%;
+  height: 85%;
+  position: absolute;
+  top: 3%;
+  left: 50%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  color: #fff;
+}
+
+.name {
+  font-size: 2.5em;
+  color: #302006;
+  font-weight: bold;
+}
+
+.bonus {
+  font-size: 2.5em;
+}
+
+.campaign {
+  font-size: 2.5em;
+}
+
+.cash {
+  font-size: 2.5em;
+}
+
+.actionBox {
+  /* background-color: rgba(0, 0, 0, 0.7); */
+  width: 17%;
+  height: 40%;
+  position: absolute;
+  top: 29%;
+  left: 1%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5em;
+}
+
+.takeWin {
+  height: 40%;
+  width: 100%;
+  /* background-color: red; */
+}
+
+.autoGame {
+  height: 40%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  /* background-color: blue; */
+}
+
+.startAutoGame {
+  background-image: url(./assets/start-auto-game.png);
+}
+
+.stopAutoGame {
+  background-image: url(./assets//stop-auto-game.png);
+}
+
+.marqueeBox {
+  position: fixed;
+  bottom: 1%;
+  height: 10%;
+  width: 200%;
+}
+
+.marqueeBox p {
+  color: #fff;
+  font-size: 1.2em;
+  overflow: hidden;
+  position: relative;
+}
+
+.marqueeBox div {
+  display: block;
+  width: 300%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  overflow: hidden;
+
+  animation: marquee 40s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    left: 50%;
+  }
+  100% {
+    left: -250%;
+  }
+}
+
+.conStatusBox {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 1rem;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  color: #fff;
+}
+
+.dot {
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.error {
+  background-color: red;
+}
+
+.success {
+  background-color: green;
+}
+
+.secondary {
+  background-color: grey;
+}
