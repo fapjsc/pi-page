@@ -38,7 +38,7 @@
   justify-content: space-evenly;
   color: #fff;
 
-  font-size: 1em;
+  font-size: 2em;
 }
 
 .name {
@@ -138,7 +138,7 @@
 }
 
 .conStatusBox {
-  background-color: rgba(0, 0, 0, 0.7);
+  /* background-color: rgba(0, 0, 0, 0.7); */
   padding: 0.2rem 0.6em;
   position: fixed;
   top: 0px;
@@ -148,12 +148,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  font-size: 0.5em;
+  font-size: 1em;
+  color: #302006;
 }
 
 .dot {
-  width: 0.5em;
-  height: 0.5em;
+  width: 0.8em;
+  height: 0.8em;
   border-radius: 100%;
   display: inline-block;
   margin-right: 5px;
