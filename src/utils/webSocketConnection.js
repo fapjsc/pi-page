@@ -1,4 +1,5 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
+// import { w3cwebsocket as W3CWebsocket } from 'websocket';
 
 import store from '../store/store';
 
@@ -10,14 +11,20 @@ import {
 
 import { sliceZero } from './helpers';
 
-const SERVER = 'ws://192.168.10.73:8098/websocket';
+const SERVER = 'ws://localhost:8098/websocket';
+// const SERVER = 'ws://192.168.10.62:8098/websocket';
 let client;
 
 let cashTemp;
 let promotionTmp;
 
+// const options = {
+//   //   connectionTimeout: 1000,
+// };
+
 export const connectWithEgm = () => {
   client = new ReconnectingWebSocket(SERVER);
+  //   client = new W3CWebsocket(SERVER);
 
   // 1.建立連接
   client.onopen = () => {
@@ -25,7 +32,19 @@ export const connectWithEgm = () => {
     store.dispatch(setEgmConnectStatus('success'));
   };
 
-  // 2.收到server回復
+  // 2.連線關閉
+  client.onclose = function () {
+    console.log('Connection Error');
+    store.dispatch(setEgmConnectStatus('closed'));
+  };
+
+  // 3.連線錯誤
+  client.onerror = function () {
+    console.log('Connection Error');
+    store.dispatch(setEgmConnectStatus('error'));
+  };
+
+  // 4.收到server回復
   client.onmessage = message => {
     // 0x1A => 現金點數 cashPoint
     // 0x6F => 尼瑪點數 campaign
@@ -50,15 +69,10 @@ export const connectWithEgm = () => {
     // console.log(data);
   };
 
-  //3. 連線關閉
-  client.onclose = message => {
-    console.log('websocket client closed');
-    store.dispatch(setEgmConnectStatus('closed'));
-  };
+  // console.log(client);
+};
 
-  // 4.連線錯誤
-  client.onerror = err => {
-    console.error(err);
-    store.dispatch(setEgmConnectStatus('error'));
-  };
+export const closeEgmConnect = () => {
+  // console.log(client);
+  client.close();
 };

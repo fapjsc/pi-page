@@ -7,7 +7,7 @@ import { setAgentConnectStatus } from '../store/actions/egmStatusActions';
 let socket;
 const SERVER = 'http://192.168.10.119:3030';
 
-export const connectWithSocket = () => {
+export const connectWithAgentSocket = () => {
   socket = io(SERVER);
 
   socket.on('connect', io => {

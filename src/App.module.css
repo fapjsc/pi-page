@@ -37,24 +37,29 @@
   flex-direction: column;
   justify-content: space-evenly;
   color: #fff;
+
+  font-size: 1em;
 }
 
 .name {
-  font-size: 2.5em;
+  /* font-size: 1em; */
   color: #302006;
   font-weight: bold;
 }
 
 .bonus {
-  font-size: 2.5em;
+  /* font-size: 1em; */
+  color: #f2f2f2;
 }
 
 .campaign {
-  font-size: 2.5em;
+  /* font-size: 1em; */
+  color: #f2f2f2;
 }
 
 .cash {
-  font-size: 2.5em;
+  /* font-size: 1em; */
+  color: #f2f2f2;
 }
 
 .actionBox {
@@ -67,9 +72,9 @@
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 1.5em;
+  gap: 1em;
 }
 
 .takeWin {
@@ -104,7 +109,7 @@
 
 .marqueeBox p {
   color: #fff;
-  font-size: 1.2em;
+  font-size: 0.8em;
   overflow: hidden;
   position: relative;
 }
@@ -134,7 +139,7 @@
 
 .conStatusBox {
   background-color: rgba(0, 0, 0, 0.7);
-  padding: 1rem;
+  padding: 0.2rem 0.6em;
   position: fixed;
   top: 0px;
   right: 0px;
@@ -142,12 +147,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  font-size: 0.5em;
 }
 
 .dot {
-  width: 1em;
-  height: 1em;
+  width: 0.5em;
+  height: 0.5em;
   border-radius: 100%;
   display: inline-block;
   margin-right: 5px;

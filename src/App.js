@@ -2,8 +2,8 @@ import Space from './Space';
 import { useState, useEffect } from 'react';
 
 // Socket
-import { connectWithSocket } from './utils/socketConnection';
-import { connectWithEgm } from './utils/webSocketConnection';
+import { connectWithAgentSocket } from './utils/socketConnection';
+import { connectWithEgm, closeEgmConnect } from './utils/webSocketConnection';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -31,13 +31,13 @@ const App = () => {
   const { sendRequest, data, error, status } = useHttp(spin);
 
   useEffect(() => {
-    connectWithSocket();
+    connectWithAgentSocket();
     connectWithEgm();
   }, []);
 
-  useEffect(() => {
-    if (isAutoGame) sendRequest();
-  }, []);
+  // useEffect(() => {
+  //   if (isAutoGame) sendRequest();
+  // }, []);
 
   return (
     <main className={styles.main}>
@@ -95,7 +95,7 @@ const App = () => {
         </div>
 
         <div className={styles.contentBox}>
-          <div className={styles.name}>name</div>
+          <div className={styles.name}>王小明</div>
           <div className={styles.bonus}>bonus</div>
 
           <div className={styles.campaign}>
@@ -117,7 +117,8 @@ const App = () => {
           <div
             onClick={() => {
               setIsAutoGame(pre => !pre);
-              // sendRequest();
+              sendRequest();
+              // closeEgmConnect();
             }}
             className={`${styles.autoGame} ${
               isAutoGame ? styles.startAutoGame : styles.stopAutoGame
@@ -139,7 +140,7 @@ const App = () => {
       </section>
 
       <button
-        style={{ position: 'fixed', bottom: 0, left: 0 }}
+        style={{ position: 'fixed', bottom: 0, left: 0, display: 'none' }}
         onClick={() => setIsMale(pre => !pre)}
       >
         toggle
