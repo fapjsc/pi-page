@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 // Socket
 import { connectWithAgentSocket } from './utils/socketConnection';
-import { connectWithEgm, closeEgmConnect } from './utils/webSocketConnection';
+import { connectWithEgm } from './utils/webSocketConnection';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -28,16 +28,36 @@ const App = () => {
   const { cashPoint, promotion } = useSelector(state => state.egmData);
 
   // Http
-  const { sendRequest, data, error, status } = useHttp(spin);
+  const { sendRequest, error } = useHttp(spin);
 
   useEffect(() => {
     connectWithAgentSocket();
     connectWithEgm();
   }, []);
 
-  // useEffect(() => {
-  //   if (isAutoGame) sendRequest();
-  // }, []);
+  useEffect(() => {
+    let autoGameLoop;
+
+    if (isAutoGame) {
+      autoGameLoop = setInterval(() => {
+        sendRequest();
+      }, 3000);
+    }
+
+    if (!isAutoGame) {
+      clearInterval(autoGameLoop);
+    }
+
+    if (error && isAutoGame) {
+      clearInterval(autoGameLoop);
+      setIsAutoGame(false);
+      alert(error);
+    }
+
+    return () => {
+      clearInterval(autoGameLoop);
+    };
+  }, [isAutoGame, sendRequest, error]);
 
   return (
     <main className={styles.main}>

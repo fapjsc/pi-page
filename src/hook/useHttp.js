@@ -43,7 +43,7 @@ const useHttp = (requestFn, startWithPending = false) => {
         const responseData = await requestFn(requestData);
         dispatch({ type: 'SUCCESS', responseData });
       } catch (error) {
-        dispatch({ type: 'ERROR' });
+        dispatch({ type: 'ERROR', errorMessage: error.message });
       }
     },
     [requestFn]
