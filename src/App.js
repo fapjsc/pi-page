@@ -131,6 +131,7 @@ const App = () => {
           <div
             onClick={() => {
               alert('take win');
+              setIsAutoGame(false);
             }}
             className={styles.takeWin}
           />
