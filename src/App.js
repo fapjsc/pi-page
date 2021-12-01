@@ -49,9 +49,9 @@ const App = () => {
     }
 
     if (error && isAutoGame) {
-      clearInterval(autoGameLoop);
-      setIsAutoGame(false);
-      alert(error);
+      // clearInterval(autoGameLoop);
+      // setIsAutoGame(false);
+      console.log(error);
     }
 
     return () => {

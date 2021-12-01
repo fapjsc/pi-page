@@ -11,8 +11,8 @@ import {
 
 import { sliceZero } from './helpers';
 
+// const SERVER = 'ws://192.168.10.113:8098/websocket';
 const SERVER = 'ws://localhost:8098/websocket';
-// const SERVER = 'ws://192.168.10.62:8098/websocket';
 let client;
 
 let cashTemp;

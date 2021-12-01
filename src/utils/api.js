@@ -1,6 +1,6 @@
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
 
-// const EGM_IP = 'http://192.168.10.74:8099/relayi2c';
+// const EGM_IP = 'http://192.168.10.113:8099/relayi2c';
 const EGM_IP = 'http://localhost:8099/relayi2c';
 
 export const spin = async () => {
