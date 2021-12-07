@@ -2,8 +2,8 @@ import Space from './Space';
 import { useState, useEffect } from 'react';
 
 // Socket
-import { connectWithAgentSocket } from './utils/socketConnection';
-import { connectWithEgm } from './utils/webSocketConnection';
+import { connectWithAgentSocket, closeSocket } from './utils/socketConnection';
+import { connectWithEgm, closeEgmConnect } from './utils/webSocketConnection';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import useHttp from './hook/useHttp';
 
 // APis
-import { spin } from './utils/api';
+import { spin, serviceCall } from './utils/api';
 
 import styles from './App.module.css';
 
@@ -30,9 +30,21 @@ const App = () => {
   // Http
   const { sendRequest, error } = useHttp(spin);
 
+  const {
+    sendRequest: serviceCallReq,
+    data: serviceCallData,
+    status: serviceCallStatus,
+    error: serviceCallError,
+  } = useHttp(serviceCall);
+
   useEffect(() => {
     connectWithAgentSocket();
     connectWithEgm();
+
+    return () => {
+      closeSocket();
+      closeEgmConnect();
+    };
   }, []);
 
   useEffect(() => {
@@ -58,6 +70,19 @@ const App = () => {
       clearInterval(autoGameLoop);
     };
   }, [isAutoGame, sendRequest, error]);
+
+  useEffect(() => {
+    console.log(serviceCallData, serviceCallStatus);
+
+    if (
+      !serviceCallError &&
+      serviceCallStatus === 'completed' &&
+      serviceCallData?.action === 'action'
+    ) {
+      // alert('請稍候,服務人員馬上到,請點擊確定回到畫面');
+      console.log('call service');
+    }
+  }, [serviceCallData, serviceCallStatus, serviceCallError]);
 
   return (
     <main className={styles.main}>
@@ -145,6 +170,43 @@ const App = () => {
               isAutoGame ? styles.startAutoGame : styles.stopAutoGame
             }`}
           />
+          {!serviceCallError &&
+          serviceCallStatus === 'completed' &&
+          serviceCallData?.action === 'action' ? (
+            <button
+              style={{
+                backgroundColor: 'green',
+                color: '#fff',
+                borderRadius: '100%',
+                padding: '1em',
+                position: 'fixed',
+                bottom: '15%',
+                fontWeight: 'bold',
+                width: '5rem',
+                height: '4rem',
+              }}
+              onClick={() => serviceCallReq('cancel')}
+            >
+              取消服務鈴
+            </button>
+          ) : (
+            <button
+              style={{
+                backgroundColor: 'red',
+                color: '#fff',
+                borderRadius: '100%',
+                padding: '1em',
+                position: 'fixed',
+                bottom: '15%',
+                fontWeight: 'bold',
+                width: '5rem',
+                height: '4rem',
+              }}
+              onClick={() => serviceCallReq('action')}
+            >
+              {serviceCallStatus === 'pending' ? 'Loading...' : '服務鈴'}
+            </button>
+          )}
         </div>
 
         <div className={styles.marqueeBox}>

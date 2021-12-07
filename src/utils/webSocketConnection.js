@@ -74,5 +74,5 @@ export const connectWithEgm = () => {
 
 export const closeEgmConnect = () => {
   // console.log(client);
-  client.close();
+  client?.close();
 };

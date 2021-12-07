@@ -1,10 +1,13 @@
-import { findRenderedComponentWithType } from 'react-dom/test-utils';
+import config from '../config/config.json';
 
-// const EGM_IP = 'http://192.168.10.113:8099/relayi2c';
-const EGM_IP = 'http://localhost:8099/relayi2c';
+// Helpers
+import { getRandIP } from '../utils/helpers';
+const TEST_IP = getRandIP();
+
+const SERVER = config.AGENT_SERVER_IP;
 
 export const spin = async () => {
-  const response = await fetch(EGM_IP, {
+  const response = await fetch(`http://localhost:8099/relayi2c`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -17,4 +20,23 @@ export const spin = async () => {
   if (!response.ok) throw new Error('access egm fail');
 
   console.log(data);
+};
+
+// action: 'action' or 'cancel'
+export const serviceCall = async action => {
+  const response = await fetch(`${SERVER}/test/serviceBell`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      // ip: config.LOCAL_IP,
+      ip: TEST_IP,
+      action: action,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) throw new Error('Could not fetch service bell');
+
+  return data;
 };

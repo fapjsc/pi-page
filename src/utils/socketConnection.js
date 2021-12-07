@@ -4,8 +4,11 @@ import store from '../store/store';
 
 import { setAgentConnectStatus } from '../store/actions/egmStatusActions';
 
+import config from '../config/config.json';
+
 let socket;
-const SERVER = 'http://192.168.10.119:3030';
+// const SERVER = 'http://192.168.10.119:3030';
+const SERVER = config.AGENT_SERVER_IP;
 
 export const connectWithAgentSocket = () => {
   socket = io(SERVER);
@@ -24,8 +27,12 @@ export const connectWithAgentSocket = () => {
     console.log(`connect_error`);
     store.dispatch(setAgentConnectStatus('error'));
   });
+
+  socket.on('serviceBell', data => {
+    console.log(data);
+  });
 };
 
-// export const closeSocket = () => {
-//   socket.close();
-// };
+export const closeSocket = () => {
+  if (socket) socket.close();
+};
