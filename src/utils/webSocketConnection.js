@@ -11,7 +11,7 @@ import {
   setPromotion,
 } from "../store/actions/egmStatusActions";
 
-import { sliceZero, getIP } from "./helpers";
+import { sliceZero } from "./helpers";
 
 import { getDenomination, getDenominationTable } from "../utils/denomination";
 
@@ -57,7 +57,6 @@ export const connectWithEgm = () => {
     // 0x6F => 尼瑪點數 campaign
     const data = JSON.parse(message.data);
 
-    // console.log(data);
 
     // Cash Point
     if (getDenominationTable(data.code)) {
@@ -67,7 +66,7 @@ export const connectWithEgm = () => {
       cashTemp = cashPoint;
 
       if (config.devConfig.egmBrand === "Igt") {
-        store.dispatch(cashPoint);
+        store.dispatch(setCashPoint(cashPoint));
       } else {
         store.dispatch(setCashPoint(getDenomination(cashPoint, data.code)));
       }
