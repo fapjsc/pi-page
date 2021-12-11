@@ -192,7 +192,6 @@ const App = () => {
                 fontWeight: "bold",
                 width: "15%",
                 height: "15%",
-                fontSize: "10em",
               }}
             >
               <button
@@ -217,7 +216,6 @@ const App = () => {
                 fontWeight: "bold",
                 width: "15%",
                 height: "15%",
-                backgroundColor: "blue",
               }}
             >
               <button
