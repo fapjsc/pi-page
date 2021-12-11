@@ -141,8 +141,8 @@ const App = () => {
         </div>
 
         <div className={styles.contentBox}>
-          <div className={styles.name}>王小明</div>
-          <div className={styles.bonus}>bonus</div>
+          <div className={styles.name}>-</div>
+          <div className={styles.bonus}>-</div>
 
           <div className={styles.campaign}>
             {promotion ? promotion : promotion === 0 ? 0 : "Loading..."}
