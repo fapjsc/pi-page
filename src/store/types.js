@@ -3,3 +3,6 @@ export const SET_AGENT_CONNECT_STATUS = 'SET_AGENT_CONNECT_STATUS';
 
 export const SET_CASH_POINT = 'SET_CASH_POINT';
 export const SET_PROMOTION = 'SET_PROMOTION';
+
+
+export const SET_IP = 'SET_IP'

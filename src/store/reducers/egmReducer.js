@@ -3,10 +3,12 @@ import {
   SET_CASH_POINT,
   SET_PROMOTION,
   SET_AGENT_CONNECT_STATUS,
-} from '../types';
+  SET_IP,
+} from "../types";
 const connectionInitialState = {
-  egmStatus: 'pending',
-  agentStatus: 'pending',
+  egmStatus: "pending",
+  agentStatus: "pending",
+  ip: "",
 };
 
 export const connectStatusReducers = (
@@ -47,6 +49,12 @@ export const egmDataReducers = (state = egmDataInitialState, action) => {
       return {
         ...state,
         promotion: action.promotion,
+      };
+
+    case SET_IP:
+      return {
+        ...state,
+        ip: action.ip,
       };
     default:
       return state;

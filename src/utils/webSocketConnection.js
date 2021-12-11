@@ -11,7 +11,7 @@ import {
   setPromotion,
 } from "../store/actions/egmStatusActions";
 
-import { sliceZero } from "./helpers";
+import { sliceZero, getIP } from "./helpers";
 
 import { getDenomination, getDenominationTable } from "../utils/denomination";
 

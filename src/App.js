@@ -16,6 +16,8 @@ import { spin, serviceCall } from "./utils/api";
 
 import styles from "./App.module.css";
 
+
+
 const App = () => {
   const [isMale, setIsMale] = useState(true);
   const [isAutoGame, setIsAutoGame] = useState(false);

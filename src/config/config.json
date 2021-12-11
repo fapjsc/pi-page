@@ -6,6 +6,6 @@
     "egmBrand": "Bally"
   },
 
-  "AGENT_SERVER_IP": "http://192.168.10.200:3030",
+  "AGENT_SERVER_IP": "http://192.168.10.119:3030",
   "EGM_IP": "192.168.10.74"
 }
