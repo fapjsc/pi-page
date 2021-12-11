@@ -16,8 +16,6 @@ import { spin, serviceCall } from "./utils/api";
 
 import styles from "./App.module.css";
 
-
-
 const App = () => {
   const [isMale, setIsMale] = useState(true);
   const [isAutoGame, setIsAutoGame] = useState(false);
@@ -187,39 +185,55 @@ const App = () => {
           {!serviceCallError &&
           serviceCallStatus === "completed" &&
           serviceCallData?.action === "action" ? (
-            <button
+            <div
               style={{
-                backgroundColor: "green",
-                color: "#fff",
-                borderRadius: "100%",
-                padding: "1em",
                 position: "fixed",
                 bottom: "15%",
                 fontWeight: "bold",
-                width: "10%",
-                height: "10%",
+                width: "15%",
+                height: "15%",
+                fontSize: "10em",
               }}
-              onClick={() => serviceCallReq("cancel")}
             >
-              取消服務鈴
-            </button>
+              <button
+                style={{
+                  backgroundColor: "green",
+                  color: "#fff",
+                  borderRadius: "100%",
+                  padding: "1em",
+                  width: "100%",
+                  height: "100%",
+                }}
+                onClick={() => serviceCallReq("cancel")}
+              >
+                取消
+              </button>
+            </div>
           ) : (
-            <button
+            <div
               style={{
-                backgroundColor: "red",
-                color: "#fff",
-                borderRadius: "100%",
-                padding: "1em",
                 position: "fixed",
                 bottom: "15%",
                 fontWeight: "bold",
-                width: "10%",
-                height: "10%",
+                width: "15%",
+                height: "15%",
+                backgroundColor: "blue",
               }}
-              onClick={() => serviceCallReq("action")}
             >
-              {serviceCallStatus === "pending" ? "Loading..." : "服務鈴"}
-            </button>
+              <button
+                style={{
+                  backgroundColor: "red",
+                  color: "#fff",
+                  borderRadius: "100%",
+                  padding: "1em",
+                  width: "100%",
+                  height: "100%",
+                }}
+                onClick={() => serviceCallReq("action")}
+              >
+                {serviceCallStatus === "pending" ? "Loading..." : "服務"}
+              </button>
+            </div>
           )}
         </div>
 
