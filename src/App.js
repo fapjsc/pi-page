@@ -16,7 +16,6 @@ import { spin, serviceCall } from "./utils/api";
 
 import styles from "./App.module.css";
 
-
 const App = () => {
   const [isMale, setIsMale] = useState(true);
   const [isAutoGame, setIsAutoGame] = useState(false);
@@ -92,6 +91,17 @@ const App = () => {
           isMale ? styles.male : styles.female
         }`}
       >
+        <div
+          onClick={() => window.location.reload()}
+          style={{
+            width: "16%",
+            height: "17%",
+            position: "absolute",
+            top: "8%",
+            left: "2%",
+          }}
+        />
+
         <div className={styles.conStatusBox}>
           <div style={{ marginBottom: ".5em" }}>
             <Space>
@@ -171,6 +181,7 @@ const App = () => {
               !isAutoGame ? styles.startAutoGame : styles.stopAutoGame
             }`}
           />
+
           {!serviceCallError &&
           serviceCallStatus === "completed" &&
           serviceCallData?.action === "action" ? (
