@@ -66,7 +66,9 @@ export const connectWithEgm = () => {
       cashTemp = cashPoint;
 
       if (config.devConfig.egmBrand === "Igt") {
-        store.dispatch(setCashPoint(cashPoint));
+        // console.log(cashPoint / 100)
+       
+        store.dispatch(setCashPoint(cashPoint / 100));
       } else {
         store.dispatch(setCashPoint(getDenomination(cashPoint, data.code)));
       }
