@@ -1,20 +1,21 @@
-import Space from './Space';
-import { useState, useEffect } from 'react';
+import Space from "./Space";
+import { useState, useEffect } from "react";
 
 // Socket
-import { connectWithAgentSocket, closeSocket } from './utils/socketConnection';
-import { connectWithEgm, closeEgmConnect } from './utils/webSocketConnection';
+import { connectWithAgentSocket, closeSocket } from "./utils/socketConnection";
+import { connectWithEgm, closeEgmConnect } from "./utils/webSocketConnection";
 
 // Redux
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
 // Hooks
-import useHttp from './hook/useHttp';
+import useHttp from "./hook/useHttp";
 
-// APis
-import { spin, serviceCall } from './utils/api';
+// Utils
+import { spin, serviceCall } from "./utils/api";
 
-import styles from './App.module.css';
+import styles from "./App.module.css";
+
 
 const App = () => {
   const [isMale, setIsMale] = useState(true);
@@ -22,10 +23,10 @@ const App = () => {
 
   // Redux
   const { egmStatus, agentStatus } = useSelector(
-    state => state.connectionStatus
+    (state) => state.connectionStatus
   );
 
-  const { cashPoint, promotion } = useSelector(state => state.egmData);
+  const { cashPoint, promotion } = useSelector((state) => state.egmData);
 
   // Http
   const { sendRequest, error } = useHttp(spin);
@@ -76,11 +77,11 @@ const App = () => {
 
     if (
       !serviceCallError &&
-      serviceCallStatus === 'completed' &&
-      serviceCallData?.action === 'action'
+      serviceCallStatus === "completed" &&
+      serviceCallData?.action === "action"
     ) {
       // alert('請稍候,服務人員馬上到,請點擊確定回到畫面');
-      console.log('call service');
+      console.log("call service");
     }
   }, [serviceCallData, serviceCallStatus, serviceCallError]);
 
@@ -92,25 +93,25 @@ const App = () => {
         }`}
       >
         <div className={styles.conStatusBox}>
-          <div style={{ marginBottom: '.5em' }}>
+          <div style={{ marginBottom: ".5em" }}>
             <Space>
               <span
                 className={`${styles.dot} ${
-                  egmStatus === 'success'
+                  egmStatus === "success"
                     ? styles.success
-                    : egmStatus === 'error'
+                    : egmStatus === "error"
                     ? styles.error
                     : styles.secondary
                 }`}
               />
               <span>
-                {egmStatus === 'closed'
-                  ? '程式等待中'
-                  : egmStatus === 'success'
-                  ? '程式正常'
-                  : egmStatus === 'error'
-                  ? '程式錯誤'
-                  : '程式等待中'}
+                {egmStatus === "closed"
+                  ? "程式等待中"
+                  : egmStatus === "success"
+                  ? "程式正常"
+                  : egmStatus === "error"
+                  ? "程式錯誤"
+                  : "程式等待中"}
               </span>
             </Space>
           </div>
@@ -119,21 +120,21 @@ const App = () => {
             <Space>
               <span
                 className={`${styles.dot} ${
-                  agentStatus === 'success'
+                  agentStatus === "success"
                     ? styles.success
-                    : agentStatus === 'error'
+                    : agentStatus === "error"
                     ? styles.error
                     : styles.secondary
                 }`}
               />
               <span>
-                {agentStatus === 'closed'
-                  ? '連線中'
-                  : agentStatus === 'success'
-                  ? '連線正常'
-                  : agentStatus === 'error'
-                  ? '連線錯誤'
-                  : '連線中'}
+                {agentStatus === "closed"
+                  ? "連線中"
+                  : agentStatus === "success"
+                  ? "連線正常"
+                  : agentStatus === "error"
+                  ? "連線錯誤"
+                  : "連線中"}
               </span>
             </Space>
           </div>
@@ -144,78 +145,78 @@ const App = () => {
           <div className={styles.bonus}>bonus</div>
 
           <div className={styles.campaign}>
-            {promotion ? promotion : promotion === 0 ? 0 : 'Loading...'}
+            {promotion ? promotion : promotion === 0 ? 0 : "Loading..."}
           </div>
 
           <div className={styles.cash}>
-            {cashPoint ? cashPoint : cashPoint === 0 ? 0 : 'Loading...'}
+            {cashPoint ? cashPoint : cashPoint === 0 ? 0 : "Loading..."}
           </div>
         </div>
 
         <div className={styles.actionBox}>
           <div
             onClick={() => {
-              alert('take win');
+              alert("take win");
               setIsAutoGame(false);
             }}
             className={styles.takeWin}
           />
           <div
             onClick={() => {
-              setIsAutoGame(pre => !pre);
+              setIsAutoGame((pre) => !pre);
               sendRequest();
               // closeEgmConnect();
             }}
             className={`${styles.autoGame} ${
-              isAutoGame ? styles.startAutoGame : styles.stopAutoGame
+              !isAutoGame ? styles.startAutoGame : styles.stopAutoGame
             }`}
           />
           {!serviceCallError &&
-          serviceCallStatus === 'completed' &&
-          serviceCallData?.action === 'action' ? (
+          serviceCallStatus === "completed" &&
+          serviceCallData?.action === "action" ? (
             <button
               style={{
-                backgroundColor: 'green',
-                color: '#fff',
-                borderRadius: '100%',
-                padding: '1em',
-                position: 'fixed',
-                bottom: '15%',
-                fontWeight: 'bold',
-                width: '5rem',
-                height: '4rem',
+                backgroundColor: "green",
+                color: "#fff",
+                borderRadius: "100%",
+                padding: "1em",
+                position: "fixed",
+                bottom: "15%",
+                fontWeight: "bold",
+                width: "5rem",
+                height: "4rem",
               }}
-              onClick={() => serviceCallReq('cancel')}
+              onClick={() => serviceCallReq("cancel")}
             >
               取消服務鈴
             </button>
           ) : (
             <button
               style={{
-                backgroundColor: 'red',
-                color: '#fff',
-                borderRadius: '100%',
-                padding: '1em',
-                position: 'fixed',
-                bottom: '15%',
-                fontWeight: 'bold',
-                width: '5rem',
-                height: '4rem',
+                backgroundColor: "red",
+                color: "#fff",
+                borderRadius: "100%",
+                padding: "1em",
+                position: "fixed",
+                bottom: "15%",
+                fontWeight: "bold",
+                width: "5rem",
+                height: "4rem",
               }}
-              onClick={() => serviceCallReq('action')}
+              onClick={() => serviceCallReq("action")}
             >
-              {serviceCallStatus === 'pending' ? 'Loading...' : '服務鈴'}
+              {serviceCallStatus === "pending" ? "Loading..." : "服務鈴"}
             </button>
           )}
         </div>
 
         <div className={styles.marqueeBox}>
           <div>
-            <p style={{ marginRight: '5em' }}>眾家遊戲 🔥 火熱上線</p>
+            <p style={{ marginRight: "5em" }}>眾家遊戲 🔥 火熱上線</p>
 
-            <p style={{ marginRight: '5em' }}>更多遊戲 🔥 等你來玩</p>
+            <p style={{ marginRight: "5em" }}>更多遊戲 🔥 等你來玩</p>
 
-            <p style={{ marginRight: '5em' }}>押的越多 🔥 送得越多</p>
+            <p style={{ marginRight: "5em" }}>押的越多 🔥 送得越多</p>
 
             <p>12/1 ~ 12/31 歡慶開幕大放送.</p>
           </div>
@@ -223,8 +224,8 @@ const App = () => {
       </section>
 
       <button
-        style={{ position: 'fixed', bottom: 0, left: 0, display: 'none' }}
-        onClick={() => setIsMale(pre => !pre)}
+        style={{ position: "fixed", bottom: 0, left: 0, display: "none" }}
+        onClick={() => setIsMale((pre) => !pre)}
       >
         toggle
       </button>
