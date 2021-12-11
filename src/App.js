@@ -196,8 +196,8 @@ const App = () => {
                 position: "fixed",
                 bottom: "15%",
                 fontWeight: "bold",
-                width: "5rem",
-                height: "4rem",
+                width: "3rem",
+                height: "2rem",
               }}
               onClick={() => serviceCallReq("cancel")}
             >
@@ -213,8 +213,8 @@ const App = () => {
                 position: "fixed",
                 bottom: "15%",
                 fontWeight: "bold",
-                width: "5rem",
-                height: "4rem",
+                width: "3rem",
+                height: "2rem",
               }}
               onClick={() => serviceCallReq("action")}
             >
