@@ -9,6 +9,7 @@ import {
   setEgmConnectStatus,
   setCashPoint,
   setPromotion,
+  setDenomination
 } from "../store/actions/egmStatusActions";
 
 import { sliceZero } from "./helpers";
@@ -57,29 +58,36 @@ export const connectWithEgm = () => {
     // 0x6F => 尼瑪點數 campaign
     const data = JSON.parse(message.data);
 
+    // Set denomination
+    if(data.denomination) {
+      store.dispatch(setDenomination(data.denomination))
+    }
+
 
     // Cash Point
-    if (getDenominationTable(data.code)) {
+    if(data.code === '0x1A') {
       const cashPoint = sliceZero(data.value);
-      if (cashTemp === cashPoint) return;
+      if(cashPoint === cashTemp) return
+      cashTemp = cashPoint
 
-      cashTemp = cashPoint;
+      if(store.getState().egmData.denomination) {
+        const denomination = store.getState().egmData.denomination
 
-      if (config.devConfig.egmBrand === "Igt") {
-        // console.log(cashPoint / 100)
-       
-        store.dispatch(setCashPoint(cashPoint / 100));
-      } else {
-        store.dispatch(setCashPoint(getDenomination(cashPoint, data.code)));
+        console.log(cashPoint, denomination)
+        console.log(getDenomination(cashPoint, denomination))
+        const money = getDenomination(cashPoint, denomination)
+        store.dispatch(setCashPoint(money.toString()))
       }
     }
+    
 
     // Promotion
     if (data.code === "0x6F") {
       const promotion = sliceZero(data.value);
       if (promotionTmp === promotion) return;
       promotionTmp = promotion;
-      store.dispatch(setPromotion(getDenomination(promotion, "6F")));
+      console.log(promotion)
+      store.dispatch(setPromotion(promotion.toString()));
     }
   };
 };
@@ -88,3 +96,7 @@ export const closeEgmConnect = () => {
   // console.log(client);
   client?.close();
 };
+
+export const sendDenominationText = () => {
+  client.send('denomination')
+}

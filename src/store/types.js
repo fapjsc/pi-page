@@ -6,3 +6,6 @@ export const SET_PROMOTION = 'SET_PROMOTION';
 
 
 export const SET_IP = 'SET_IP'
+
+
+export const SET_DENOMINATION = 'SET_DENOMINATION'

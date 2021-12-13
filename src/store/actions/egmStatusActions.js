@@ -3,6 +3,7 @@ import {
   SET_CASH_POINT,
   SET_PROMOTION,
   SET_AGENT_CONNECT_STATUS,
+  SET_DENOMINATION
 } from '../types';
 
 export const setEgmConnectStatus = val => {
@@ -32,3 +33,11 @@ export const setPromotion = promotion => {
     promotion,
   };
 };
+
+
+export const setDenomination = (denomination) => {
+  return {
+    type: SET_DENOMINATION,
+    denomination
+  }
+}

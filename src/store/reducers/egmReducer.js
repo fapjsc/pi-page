@@ -4,6 +4,7 @@ import {
   SET_PROMOTION,
   SET_AGENT_CONNECT_STATUS,
   SET_IP,
+  SET_DENOMINATION
 } from "../types";
 const connectionInitialState = {
   egmStatus: "pending",
@@ -35,6 +36,7 @@ export const connectStatusReducers = (
 const egmDataInitialState = {
   cashPoint: null,
   promotion: null,
+  denomination: null
 };
 
 export const egmDataReducers = (state = egmDataInitialState, action) => {
@@ -56,6 +58,12 @@ export const egmDataReducers = (state = egmDataInitialState, action) => {
         ...state,
         ip: action.ip,
       };
+
+      case SET_DENOMINATION:
+      return {
+        ...state,
+        denomination: action.denomination
+      }
     default:
       return state;
   }

@@ -40,7 +40,7 @@ export const getIP = (callback) => {
       /([0-9]{1,3}(\.[0-9]{1,3}){3}|([a-f0-9]{1,4}((:[a-f0-9]{1,4}){7}|:+[a-f0-9]{1,4}){6}))/;
     let ip_isMatch = candidate.match(ip_regexp)[1];
     if (!recode[ip_isMatch]) {
-      console.log(callback)
+      console.log(callback);
       callback(ip_isMatch);
       recode[ip_isMatch] = true;
     }
@@ -70,3 +70,6 @@ export const getIP = (callback) => {
   }, 1000);
 };
 
+export const formatThousands = (strNum) => {
+  return strNum.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+};

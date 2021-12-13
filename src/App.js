@@ -3,7 +3,11 @@ import { useState, useEffect } from "react";
 
 // Socket
 import { connectWithAgentSocket, closeSocket } from "./utils/socketConnection";
-import { connectWithEgm, closeEgmConnect } from "./utils/webSocketConnection";
+import {
+  connectWithEgm,
+  closeEgmConnect,
+  sendDenominationText,
+} from "./utils/webSocketConnection";
 
 // Redux
 import { useSelector } from "react-redux";
@@ -13,6 +17,7 @@ import useHttp from "./hook/useHttp";
 
 // Utils
 import { spin, serviceCall } from "./utils/api";
+import { formatThousands } from "./utils/helpers";
 
 import styles from "./App.module.css";
 
@@ -25,7 +30,9 @@ const App = () => {
     (state) => state.connectionStatus
   );
 
-  const { cashPoint, promotion } = useSelector((state) => state.egmData);
+  const { cashPoint, promotion, denomination } = useSelector(
+    (state) => state.egmData
+  );
 
   // Http
   const { sendRequest, error } = useHttp(spin);
@@ -36,6 +43,18 @@ const App = () => {
     status: serviceCallStatus,
     error: serviceCallError,
   } = useHttp(serviceCall);
+
+  useEffect(() => {
+    if (denomination) return;
+
+    const getDenominationLoop = setInterval(() => {
+      sendDenominationText();
+    }, 1000);
+
+    return () => {
+      clearInterval(getDenominationLoop);
+    };
+  }, [denomination]);
 
   useEffect(() => {
     connectWithAgentSocket();
@@ -84,6 +103,36 @@ const App = () => {
     }
   }, [serviceCallData, serviceCallStatus, serviceCallError]);
 
+  const egmStatusStyle = (type) => {
+    if (type === "egm") {
+      if (egmStatus === "success") return styles.success;
+      if (egmStatus === "error") return styles.error;
+    }
+
+    if (type === "agent") {
+      if (agentStatus === "success") return styles.success;
+      if (agentStatus === "error") return styles.error;
+    }
+
+    return styles.secondary;
+  };
+
+  const egmStatusText = (type) => {
+    if (type === "egm") {
+      if (egmStatus === "closed") return "程式等待中";
+      if (egmStatus === "success") return "程式正常";
+      if (egmStatus === "error") return "程式錯誤";
+    }
+
+    if (type === "agent") {
+      if (agentStatus === "closed") return "連線中";
+      if (agentStatus === "success") return "連線正常";
+      if (agentStatus === "error") return "連線錯誤";
+    }
+
+    return "連線中";
+  };
+
   return (
     <main className={styles.main}>
       <section
@@ -105,47 +154,15 @@ const App = () => {
         <div className={styles.conStatusBox}>
           <div style={{ marginBottom: ".5em" }}>
             <Space>
-              <span
-                className={`${styles.dot} ${
-                  egmStatus === "success"
-                    ? styles.success
-                    : egmStatus === "error"
-                    ? styles.error
-                    : styles.secondary
-                }`}
-              />
-              <span>
-                {egmStatus === "closed"
-                  ? "程式等待中"
-                  : egmStatus === "success"
-                  ? "程式正常"
-                  : egmStatus === "error"
-                  ? "程式錯誤"
-                  : "程式等待中"}
-              </span>
+              <span className={`${styles.dot} ${egmStatusStyle("egm")}`} />
+              <span>{egmStatusText("egm")}</span>
             </Space>
           </div>
 
           <div>
             <Space>
-              <span
-                className={`${styles.dot} ${
-                  agentStatus === "success"
-                    ? styles.success
-                    : agentStatus === "error"
-                    ? styles.error
-                    : styles.secondary
-                }`}
-              />
-              <span>
-                {agentStatus === "closed"
-                  ? "連線中"
-                  : agentStatus === "success"
-                  ? "連線正常"
-                  : agentStatus === "error"
-                  ? "連線錯誤"
-                  : "連線中"}
-              </span>
+              <span className={`${styles.dot} ${egmStatusStyle("agent")}`} />
+              <span>{egmStatusText("agent")}</span>
             </Space>
           </div>
         </div>
@@ -155,11 +172,11 @@ const App = () => {
           <div className={styles.bonus}>-</div>
 
           <div className={styles.campaign}>
-            {promotion ? promotion : promotion === 0 ? 0 : "Loading..."}
+            {promotion ? formatThousands(promotion) : "Loading..."}
           </div>
 
           <div className={styles.cash}>
-            {cashPoint ? cashPoint : cashPoint === 0 ? 0 : "Loading..."}
+            {cashPoint ? formatThousands(cashPoint) : "Loading..."}
           </div>
         </div>
 
@@ -248,12 +265,12 @@ const App = () => {
         </div>
       </section>
 
-      <button
+      {/* <button
         style={{ position: "fixed", bottom: 0, left: 0, display: "none" }}
         onClick={() => setIsMale((pre) => !pre)}
       >
         toggle
-      </button>
+      </button> */}
     </main>
   );
 };
