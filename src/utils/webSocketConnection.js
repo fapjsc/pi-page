@@ -9,7 +9,7 @@ import {
   setEgmConnectStatus,
   setCashPoint,
   setPromotion,
-  setDenomination
+  setDenomination,
 } from "../store/actions/egmStatusActions";
 
 import { sliceZero } from "./helpers";
@@ -59,34 +59,32 @@ export const connectWithEgm = () => {
     const data = JSON.parse(message.data);
 
     // Set denomination
-    if(data.denomination) {
-      store.dispatch(setDenomination(data.denomination))
+    if (data.denomination) {
+      store.dispatch(setDenomination(data.denomination));
     }
-
 
     // Cash Point
-    if(data.code === '0x1A') {
+    if (data.code === "0x1A") {
       const cashPoint = sliceZero(data.value);
-      if(cashPoint === cashTemp) return
-      cashTemp = cashPoint
+      if (cashPoint === cashTemp) return;
+      cashTemp = cashPoint;
 
-      if(store.getState().egmData.denomination) {
-        const denomination = store.getState().egmData.denomination
+      if (store.getState().egmData.denomination) {
+        const denomination = store.getState().egmData.denomination;
 
-        console.log(cashPoint, denomination)
-        console.log(getDenomination(cashPoint, denomination))
-        const money = getDenomination(cashPoint, denomination)
-        store.dispatch(setCashPoint(money.toString()))
+        console.log(cashPoint, denomination);
+        console.log(getDenomination(cashPoint, denomination));
+        const money = getDenomination(cashPoint, denomination);
+        store.dispatch(setCashPoint(money.toString()));
       }
     }
-    
 
     // Promotion
     if (data.code === "0x6F") {
       const promotion = sliceZero(data.value);
       if (promotionTmp === promotion) return;
       promotionTmp = promotion;
-      console.log(promotion)
+      console.log(promotion);
       store.dispatch(setPromotion(promotion.toString()));
     }
   };
@@ -98,5 +96,5 @@ export const closeEgmConnect = () => {
 };
 
 export const sendDenominationText = () => {
-  client.send('denomination')
-}
+  client.send("denomination");
+};
