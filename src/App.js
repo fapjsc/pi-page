@@ -16,7 +16,7 @@ import { useSelector } from "react-redux";
 import useHttp from "./hook/useHttp";
 
 // Utils
-import { spin, serviceCall } from "./utils/api";
+import { spin, serviceCall, egmCashInOut } from "./utils/api";
 import { formatThousands } from "./utils/helpers";
 
 import styles from "./App.module.css";
@@ -30,19 +30,29 @@ const App = () => {
     (state) => state.connectionStatus
   );
 
-  const { cashPoint, promotion, denomination } = useSelector(
+  const { bonus, cashPoint, promotion, denomination } = useSelector(
     (state) => state.egmData
   );
 
   // Http
+  // 自動遊戲
   const { sendRequest, error } = useHttp(spin);
 
+  // 服務鈴
   const {
     sendRequest: serviceCallReq,
     data: serviceCallData,
     status: serviceCallStatus,
     error: serviceCallError,
   } = useHttp(serviceCall);
+
+  // 紅利領取
+  const {
+    sendRequest: egmCashInOutReq,
+    // data: egmCashInOutData,
+    // status: egmCashInOutStatus,
+    // error: egmCashInOutError,
+  } = useHttp(egmCashInOut);
 
   useEffect(() => {
     if (denomination) return;
@@ -169,7 +179,10 @@ const App = () => {
 
         <div className={styles.contentBox}>
           <div className={styles.name}>-</div>
-          <div className={styles.bonus}>-</div>
+
+          <div className={styles.bonus}>
+            {bonus ? formatThousands(bonus) : "-"}
+          </div>
 
           <div className={styles.campaign}>
             {promotion ? formatThousands(promotion) : "Loading..."}
@@ -183,8 +196,9 @@ const App = () => {
         <div className={styles.actionBox}>
           <div
             onClick={() => {
-              alert("take win");
               setIsAutoGame(false);
+              // alert("take win");
+              egmCashInOutReq();
             }}
             className={styles.takeWin}
           />

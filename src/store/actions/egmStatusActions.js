@@ -3,7 +3,8 @@ import {
   SET_CASH_POINT,
   SET_PROMOTION,
   SET_AGENT_CONNECT_STATUS,
-  SET_DENOMINATION
+  SET_DENOMINATION,
+  SET_BONUS
 } from '../types';
 
 export const setEgmConnectStatus = val => {
@@ -41,3 +42,8 @@ export const setDenomination = (denomination) => {
     denomination
   }
 }
+
+export const setBonus = (bonus) => ({
+  type: SET_BONUS,
+  bonus
+})

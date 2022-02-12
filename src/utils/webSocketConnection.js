@@ -7,6 +7,7 @@ import config from "../config/config.json";
 
 import {
   setEgmConnectStatus,
+  setBonus,
   setCashPoint,
   setPromotion,
   setDenomination,
@@ -23,6 +24,7 @@ const WEBSOCKET_SERVER = `ws://${config.EGM_IP}:8098/websocket`;
 
 let client;
 
+let bonusTmp;
 let cashTemp;
 let promotionTmp;
 
@@ -57,9 +59,16 @@ export const connectWithEgm = () => {
     // 0x1A => 現金點數 cashPoint
     // 0x6F => 尼瑪點數 campaign
     const data = JSON.parse(message.data);
+    // console.log(JSON.parse(message.data).value)
+    console.log(
+      `%c${JSON.parse(message.data).code}`,
+      "color:green",
+      JSON.parse(message.data).value
+    );
 
     // Set denomination
     if (data.denomination) {
+      console.log(data.denomination);
       store.dispatch(setDenomination(data.denomination));
     }
 
@@ -68,24 +77,41 @@ export const connectWithEgm = () => {
       const cashPoint = sliceZero(data.value);
       if (cashPoint === cashTemp) return;
       cashTemp = cashPoint;
+      const denomination = store.getState().egmData.denomination;
+      let cash = getDenomination(cashPoint, denomination);
 
-      if (store.getState().egmData.denomination) {
-        const denomination = store.getState().egmData.denomination;
-
-        console.log(cashPoint, denomination);
-        console.log(getDenomination(cashPoint, denomination));
-        const money = getDenomination(cashPoint, denomination);
-        store.dispatch(setCashPoint(money.toString()));
+      if (promotionTmp) {
+        const promo = getDenomination(promotionTmp, denomination);
+        cash = cash - promo;
       }
+      store.dispatch(setCashPoint(cash.toString()));
+
     }
 
     // Promotion
     if (data.code === "0x6F") {
       const promotion = sliceZero(data.value);
+      // let cash = store.getState().egmData.cashPoint;
       if (promotionTmp === promotion) return;
       promotionTmp = promotion;
-      console.log(promotion);
-      store.dispatch(setPromotion(promotion.toString()));
+      const denomination = store.getState().egmData.denomination;
+      const promo = getDenomination(promotion, denomination);
+      store.dispatch(setPromotion(promo.toString()));
+
+      if (cashTemp) {
+        let allPoint = getDenomination(cashTemp, denomination);
+        const cash = allPoint - promo;
+        store.dispatch(setCashPoint(cash.toString()));
+      }
+    }
+
+    // bonus
+    if (data.code === "0x11") {
+      const bonus = sliceZero(data.value);
+      // if (bonusTmp === bonus) return;
+      bonusTmp = bonus;
+      console.log(bonus);
+      store.dispatch(setBonus(bonus.toString()));
     }
   };
 };
