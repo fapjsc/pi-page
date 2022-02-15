@@ -107,10 +107,12 @@ export const connectWithEgm = () => {
 
     // bonus
     if (data.code === "0x11") {
-      const bonus = sliceZero(data.value);
+      let bonus = sliceZero(data.value);
       // if (bonusTmp === bonus) return;
       bonusTmp = bonus;
       console.log(bonus);
+      const denomination = store.getState().egmData.denomination;
+      bonus = getDenomination(bonus, denomination)
       store.dispatch(setBonus(bonus.toString()));
     }
   };
