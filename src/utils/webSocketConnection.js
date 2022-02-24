@@ -60,11 +60,11 @@ export const connectWithEgm = () => {
     // 0x6F => 尼瑪點數 campaign
     const data = JSON.parse(message.data);
     // console.log(JSON.parse(message.data).value)
-    console.log(
-      `%c${JSON.parse(message.data).code}`,
-      "color:green",
-      JSON.parse(message.data).value
-    );
+    // console.log(
+    //   `%c${JSON.parse(message.data).code}`,
+    //   "color:green",
+    //   JSON.parse(message.data).value
+    // );
 
     // Set denomination
     if (data.denomination) {
@@ -85,10 +85,9 @@ export const connectWithEgm = () => {
         cash = cash - promo;
       }
       store.dispatch(setCashPoint(cash.toString()));
-
     }
 
-    // Promotion
+    // Promotion 尼瑪
     if (data.code === "0x6F") {
       const promotion = sliceZero(data.value);
       // let cash = store.getState().egmData.cashPoint;
@@ -105,14 +104,14 @@ export const connectWithEgm = () => {
       }
     }
 
-    // bonus
+    // bonus 紅利積點
     if (data.code === "0x11") {
       let bonus = sliceZero(data.value);
       // if (bonusTmp === bonus) return;
       bonusTmp = bonus;
       console.log(bonus);
       const denomination = store.getState().egmData.denomination;
-      bonus = getDenomination(bonus, denomination)
+      bonus = getDenomination(bonus, denomination);
       store.dispatch(setBonus(bonus.toString()));
     }
   };

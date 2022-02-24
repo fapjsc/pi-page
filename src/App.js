@@ -22,6 +22,10 @@ import { formatThousands } from "./utils/helpers";
 import styles from "./App.module.css";
 
 const App = () => {
+  const { memberData } = useSelector((state) => state.member);
+
+  const { name, gender } = memberData || {};
+
   const [isMale, setIsMale] = useState(true);
   const [isAutoGame, setIsAutoGame] = useState(false);
 
@@ -53,6 +57,14 @@ const App = () => {
     // status: egmCashInOutStatus,
     // error: egmCashInOutError,
   } = useHttp(egmCashInOut);
+
+  useEffect(() => {
+    if (gender === "female") {
+      setIsMale(false);
+    } else {
+      setIsMale(true);
+    }
+  }, [gender]);
 
   useEffect(() => {
     if (denomination) return;
@@ -178,7 +190,7 @@ const App = () => {
         </div>
 
         <div className={styles.contentBox}>
-          <div className={styles.name}>-</div>
+          <div className={styles.name}>{name || "-"}</div>
 
           <div className={styles.bonus}>
             {bonus ? formatThousands(bonus) : "-"}
@@ -201,6 +213,7 @@ const App = () => {
               egmCashInOutReq();
             }}
             className={styles.takeWin}
+            style={{ cursor: "pointer" }}
           />
           <div
             onClick={() => {
@@ -257,6 +270,7 @@ const App = () => {
                   padding: "1em",
                   width: "100%",
                   height: "100%",
+                  cursor: "pointer",
                 }}
                 onClick={() => serviceCallReq("action")}
               >
